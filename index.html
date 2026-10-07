@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FLORRIS PROFESSIONAL</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--gold:#C9A96E;--tx:#FDFBF7;--card:#111;--mut:#8a8a8a}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font:300 14px/1.6 Montserrat,sans-serif}
+h1,h2,h3,.logo{font-family:'Cormorant Garamond',serif;font-weight:400}
+button{font:inherit;cursor:pointer}a{color:inherit;text-decoration:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:20px 5%;transition:.3s}
+nav.solid{background:#080808;border-bottom:1px solid #222}
+.logo{color:var(--gold);font-size:26px}.logo small{font-size:12px;letter-spacing:4px;margin-left:6px}
+.links{display:flex;gap:34px;font-size:12px;letter-spacing:2px;text-transform:uppercase}.links a:hover{color:var(--gold)}
+.cartbtn{background:none;border:1px solid var(--gold);color:var(--gold);padding:8px 18px;letter-spacing:2px;font-size:12px}
+.hero{height:100vh;background:linear-gradient(#0009,#080808dd),url(images/hero.jpg) center/cover #1a1a1a;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:0 5%;animation:in 1.2s both}
+@keyframes in{from{opacity:0;transform:translateY(24px)}}
+.hero h1{font-size:clamp(44px,8vw,96px);line-height:1.05}.hero p{color:var(--gold);letter-spacing:3px;margin:20px 0 34px;font-size:12px}
+.btn{display:inline-block;background:var(--gold);color:#000;border:1px solid var(--gold);padding:13px 30px;letter-spacing:2px;font-size:12px;text-transform:uppercase;margin:0 6px}
+.btn.o{background:none;color:var(--gold)}
+.scroll{position:absolute;bottom:30px;left:5%;font-size:11px;letter-spacing:3px;color:var(--mut)}
+.marq{background:var(--gold);color:#000;overflow:hidden;white-space:nowrap;padding:12px 0;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.marq div{display:inline-block;animation:m 25s linear infinite}@keyframes m{to{transform:translateX(-50%)}}
+section{padding:90px 5%}h2{font-size:42px;text-align:center;margin-bottom:46px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cat{position:relative;height:420px;background:#1a1a1a center/cover;overflow:hidden;display:flex;align-items:flex-end;padding:26px}
+.cat::before{content:"";position:absolute;inset:0;background:#0006;transition:.4s}.cat:hover::before{background:#000b}
+.cat h3{position:relative;font-size:28px}.cat .btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;transition:.4s}.cat:hover .btn{opacity:1}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{background:var(--card)}.im{position:relative;height:320px;overflow:hidden;background:#1a1a1a}
+.im img{width:100%;height:100%;object-fit:cover;transition:.5s}.card:hover img{transform:scale(1.04)}
+.ov{position:absolute;inset:0;background:#000a;display:flex;gap:8px;justify-content:center;align-items:center;opacity:0;transition:.3s}.card:hover .ov{opacity:1}
+.ov .btn{margin:0;padding:11px 18px}.heart{background:none;border:1px solid var(--gold);color:var(--gold);width:42px;height:42px}
+.info{padding:16px}.sh{color:var(--gold);text-transform:uppercase;font-size:11px;letter-spacing:2px}
+.info h3{font-size:20px}.pr{color:var(--gold)}.pr s{color:var(--mut);margin-left:8px;font-size:12px}
+.alt{background:#0f0f0f}
+.feat{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;gap:20px;border-block:1px solid #222;padding:50px 5%}.feat b{color:var(--gold);font:400 22px 'Cormorant Garamond'}
+.news{text-align:center}.news input{padding:13px;width:min(340px,70%);background:#ffffff0a;border:1px solid #333;color:var(--tx)}
+footer{padding:60px 5% 30px;border-top:1px solid #222}.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;color:var(--mut)}.fg h4{color:var(--gold);font-weight:400;margin-bottom:10px}
+.copy{text-align:center;margin-top:40px;font-size:11px;color:var(--mut)}
+.ovl{position:fixed;inset:0;background:#000b;z-index:90;display:none}.ovl.on{display:block}
+#cart{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:#0c0c0c;z-index:100;transform:translateX(100%);transition:transform .5s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column}
+#cart.on{transform:none}.ch{padding:22px;display:flex;justify-content:space-between;border-bottom:1px solid #222}
+#items{flex:1;overflow:auto;padding:16px}.it{display:flex;gap:12px;margin-bottom:16px;position:relative}.it img{width:80px;height:80px;object-fit:cover}
+.q button{background:none;border:1px solid #444;color:var(--tx);width:26px;height:26px}.q span{margin:0 8px}
+.rm{position:absolute;top:0;right:0;background:none;border:0;color:var(--mut);font-size:11px}
+.cf{padding:20px;border-top:1px solid #222}.cf .btn{width:100%;margin:12px 0 0}
+#modal{position:fixed;inset:0;z-index:110;display:none;align-items:center;justify-content:center;background:#000d;padding:10px}#modal.on{display:flex}
+.mb{background:#0c0c0c;max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:30px;border:1px solid #222}
+.mb input{width:100%;padding:11px;margin:5px 0;background:#ffffff0a;border:1px solid #333;color:var(--tx)}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sum{background:var(--card);padding:14px;margin:14px 0}.sum div{display:flex;justify-content:space-between}
+.tabs{display:flex;gap:6px;margin:14px 0 8px;flex-wrap:wrap}.tabs button{flex:1;background:none;border:1px solid #333;color:var(--tx);padding:9px;font-size:12px}.tabs .on{border-color:var(--gold);color:var(--gold)}
+.pay{display:none}.pay.on{display:block}.ok{text-align:center;padding:30px 0}.ok i{color:var(--gold);font-size:48px;font-style:normal}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--gold);color:#000;padding:12px 22px;z-index:200;transform:translateY(90px);transition:.3s;font-size:12px}#toast.on{transform:none}
+#dot,#ring{position:fixed;top:0;left:0;pointer-events:none;z-index:300;border-radius:50%}
+#dot{width:6px;height:6px;background:var(--gold);margin:-3px}#ring{width:28px;height:28px;border:1px solid #C9A96E88;margin:-14px}
+@media(hover:hover){body{cursor:none}a,button{cursor:none}}@media(hover:none){#dot,#ring{display:none}}
+@media(max-width:900px){.links{display:none}.cats{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.feat{grid-template-columns:1fr 1fr}.fg{grid-template-columns:1fr 1fr}h2{font-size:32px}.im{height:220px}.ov{opacity:1;background:none;align-items:flex-end;padding-bottom:8px}}
+</style></head><body>
+<div id="dot"></div><div id="ring"></div>
+<nav id="nav"><a href="#" class="logo">Florris<small>PROFESSIONAL</small></a>
+<div class="links"><a href="#collections">Collections</a><a href="#hair">Hair Color</a><a href="#skin">Skincare</a><a href="#about">About</a></div>
+<button class="cartbtn" onclick="openCart()">CART (<span id="cnt">0</span>)</button></nav>
+<header class="hero"><h1>The Art of Flawless Beauty</h1><p>100% Original · Long Lasting · Ammonia Free</p>
+<div><a class="btn" href="#hair">Shop Collection</a><a class="btn o" href="#collections">Explore</a></div><div class="scroll">SCROLL TO DISCOVER ─</div></header>
+<div class="marq"><div id="mq"></div></div>
+<section id="collections"><h2>Collections</h2><div class="cats">
+<a href="#hair" class="cat" style="background-image:url(images/hero.jpg)"><h3>Hair Color Cream</h3><span class="btn">Shop Now</span></a>
+<a href="#skin" class="cat" style="background-image:url(images/facial_kit.jpg)"><h3>Professional Facial Kit</h3><span class="btn">Shop Now</span></a>
+<a href="#skin" class="cat" style="background-image:url(images/skin_polish.jpg)"><h3>Skin Polish</h3><span class="btn">Shop Now</span></a></div></section>
+<section id="hair"><h2>Hair Color Cream</h2><div class="grid" id="g1"></div></section>
+<div class="feat"><div><b>Ammonia Free</b></div><div><b>Long Lasting</b></div><div><b>100% Original</b></div><div><b>Safe &amp; Tested</b></div></div>
+<section id="skin" class="alt"><h2>Skincare</h2><div class="grid" id="g2"></div></section>
+<section class="news" id="about"><h2>Join the Florris circle</h2><input id="em" type="email" placeholder="Your email"> <button class="btn" onclick="sub()">Subscribe</button></section>
+<footer><div class="fg"><div><h4 id="fn">Florris Professional</h4>Professional cosmetics, made for lasting results.</div>
+<div><h4>Products</h4>Hair Color<br>Skincare<br>Kits</div><div><h4>Information</h4>Shipping<br>Returns<br>Privacy</div>
+<div><h4>Contact</h4><span id="fe"></span><br><span id="fw"></span><br>Instagram · Facebook · WhatsApp</div></div>
+<div class="copy">© 2026 Florris Professional. All rights reserved.</div></footer>
+<div class="ovl" id="ov" onclick="closeAll()"></div>
+<aside id="cart"><div class="ch"><h3>Your Cart</h3><button class="rm" style="position:static;font-size:20px" onclick="closeAll()">✕</button></div>
+<div id="items"></div><div class="cf"><div style="display:flex;justify-content:space-between"><span>Total</span><b id="tot" class="pr"></b></div><button class="btn" onclick="openCheckout()">Proceed to Checkout</button></div></aside>
+<div id="modal"><div class="mb"><div id="form"><h3 style="font-size:28px">Checkout</h3><div class="sum" id="sum"></div>
+<div class="r2"><input id="fnm" placeholder="First name"><input id="lnm" placeholder="Last name"></div>
+<div class="r2"><input id="eml" placeholder="Email" type="email"><input id="ph" placeholder="Phone"></div><input id="ad" placeholder="Address">
+<div class="tabs" id="tabs"></div>
+<div class="pay" id="p-card"><input id="cn" placeholder="Card number" maxlength="19" oninput="this.value=this.value.replace(/\D/g,'').replace(/(.{4})/g,'$1 ').trim()"><div class="r2"><input placeholder="MM/YY" maxlength="5"><input placeholder="CVV" maxlength="4"></div><input placeholder="Name on card"></div>
+<div class="pay" id="p-easypaisa"><input id="ep" placeholder="Easypaisa mobile number"></div>
+<div class="pay" id="p-jazzcash"><input id="jc" placeholder="JazzCash mobile number"></div>
+<div class="pay" id="p-cod"><p style="color:var(--mut)">Pay in cash when your order arrives.</p></div>
+<button class="btn" style="width:100%;margin:16px 0 0" onclick="place()">Place Order</button></div>
+<div class="ok" id="ok" style="display:none"><i>✦</i><h3 style="font-size:30px">Order confirmed</h3><p>Order ID: <b id="oid"></b></p><p style="color:var(--mut);margin-bottom:20px">Thank you. We'll contact you shortly.</p><button class="btn" onclick="closeAll()">Continue Shopping</button></div></div></div>
+<div id="toast"></div>
+<script>
+const DEF=[["6.3","Dark Golden Blonde","cc_63"],["4.0","Medium Brown","cc_40"],["8.3","Dark Blonde","cc_83"],["7.1","Ash Blonde","cc_71"],["8.33","Light Golden Blonde","cc_833"],["5.4","Deep Autumn Chestnut","cc_54"],["8.0","Light Blonde","cc_80"],["8.41","Sunset Pearl Red","cc_841"],["5.0","Light Brown","cc_50"],["7.0","Intense Medium Blonde","cc_70"]].map((p,i)=>({id:i+1,name:"Color Cream — "+p[1],shade:p[0],price:1200,cat:"Hair Color",img:"images/"+p[2]+".jpg",status:"active",desc:"Professional long-lasting hair color cream."}))
+.concat([["Ultra-Fine 6-in-1 Skin Cream",1800,"kit6in1","Skincare"],["Ultra-Fine Face Wash (Spot-less)",950,"facewash","Skincare"],["6-in-1 Professional Facial Kit",2800,"facial_kit","Skincare"],["Vitamin C Whitening Face Wash",950,"vit_facewash","Skincare"],["Skin Polish (Instant Radiance)",2200,"skin_polish","Skincare"]].map((p,i)=>({id:11+i,name:p[0],shade:"",price:p[1],cat:p[3],img:"images/"+p[2]+".jpg",status:"active",desc:""})));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){toast('Storage full or unavailable')}};
+if(!localStorage.getItem('florris_products'))sv('florris_products',DEF);
+if(!localStorage.getItem('florris_payment_settings'))sv('florris_payment_settings',{card:{enabled:true},easypaisa:{enabled:true},jazzcash:{enabled:false},cod:{enabled:true}});
+if(!localStorage.getItem('florris_store_settings'))sv('florris_store_settings',{shippingFee:200,freeShippingAbove:2000});
+const fp=n=>'PKR '+Number(n).toLocaleString('en-PK'),$=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let cart=ld('florris_cart',[]);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200)}
+function card(p){return `<div class="card"><div class="im"><img src="${esc(p.img)}" alt="" onerror="this.onerror=null;this.src='images/hero.jpg'"><div class="ov"><button class="btn" onclick="add(${p.id})">Add to Cart</button><button class="heart" onclick="toast('Saved to wishlist')">♡</button></div></div><div class="info">${p.shade?`<div class="sh">Shade ${esc(p.shade)}</div>`:''}<h3>${esc(p.name)}</h3><div class="pr">${fp(p.price)}<s>${fp(Math.round(p.price*1.25))}</s></div></div></div>`}
+function render(){const ps=ld('florris_products',[]).filter(p=>p.status!=='draft');
+$('g1').innerHTML=ps.filter(p=>p.cat==='Hair Color').map(card).join('');
+$('g2').innerHTML=ps.filter(p=>p.cat!=='Hair Color').map(card).join('');
+const s=ld('florris_store_settings',{});if(s.storeName)$('fn').textContent=s.storeName;$('fe').textContent=s.email||'';$('fw').textContent=s.whatsapp||''}
+function drawCart(){sv('florris_cart',cart);$('cnt').textContent=cart.reduce((a,c)=>a+c.qty,0);
+$('items').innerHTML=cart.length?cart.map(c=>`<div class="it"><img src="${esc(c.img)}" alt="" onerror="this.onerror=null;this.src='images/hero.jpg'"><div><div>${esc(c.name)}</div><div class="pr">${fp(c.price)}</div><div class="q"><button onclick="qty(${c.id},-1)">−</button><span>${c.qty}</span><button onclick="qty(${c.id},1)">+</button></div></div><button class="rm" onclick="qty(${c.id},-99)">Remove</button></div>`).join(''):'<p style="color:var(--mut)">Your cart is empty.</p>';
+$('tot').textContent=fp(cart.reduce((a,c)=>a+c.price*c.qty,0))}
+function add(id){const p=ld('florris_products',[]).find(x=>x.id===id);if(!p)return;const c=cart.find(x=>x.id===id);c?c.qty++:cart.push({id,name:p.name,price:p.price,img:p.img,qty:1});drawCart();toast('Added to cart')}
+function qty(id,d){const c=cart.find(x=>x.id===id);if(!c)return;c.qty+=d;if(c.qty<1)cart=cart.filter(x=>x.id!==id);drawCart()}
+function openCart(){$('cart').classList.add('on');$('ov').classList.add('on')}
+function closeAll(){$('cart').classList.remove('on');$('ov').classList.remove('on');$('modal').classList.remove('on')}
+function ship(sub){const s=ld('florris_store_settings',{});return sub>=(s.freeShippingAbove??2000)?0:(s.shippingFee??200)}
+let method='';
+function openCheckout(){if(!cart.length)return toast('Your cart is empty');closeAll();
+const sub=cart.reduce((a,c)=>a+c.price*c.qty,0),sh=ship(sub);
+$('sum').innerHTML=cart.map(c=>`<div><span>${esc(c.name)} × ${c.qty}</span><span>${fp(c.price*c.qty)}</span></div>`).join('')+`<div><span>Shipping</span><span>${sh?fp(sh):'FREE'}</span></div><div class="pr"><b>Total</b><b>${fp(sub+sh)}</b></div>`;
+const ps=ld('florris_payment_settings',{}),names={card:'Card',easypaisa:'Easypaisa',jazzcash:'JazzCash',cod:'Cash on Delivery'},en=Object.keys(names).filter(k=>ps[k]&&ps[k].enabled);
+$('tabs').innerHTML=en.map(k=>`<button id="t-${k}" onclick="tab('${k}')">${names[k]}</button>`).join('')||'<p>No payment methods available.</p>';
+if(en.length)tab(en[0]);$('form').style.display='block';$('ok').style.display='none';$('modal').classList.add('on')}
+function tab(k){method=k;document.querySelectorAll('.tabs button,.pay').forEach(e=>e.classList.remove('on'));$('t-'+k).classList.add('on');$('p-'+k).classList.add('on')}
+function place(){const v=id=>$(id).value.trim();
+if(!v('fnm')||!v('lnm')||!v('eml')||!v('ph')||!v('ad'))return toast('Please fill all contact fields');
+if(!method)return toast('Choose a payment method');
+if(method==='card'&&v('cn').replace(/\s/g,'').length<13)return toast('Enter a valid card number');
+if(method==='easypaisa'&&!v('ep'))return toast('Enter your Easypaisa number');
+if(method==='jazzcash'&&!v('jc'))return toast('Enter your JazzCash number');
+const sub=cart.reduce((a,c)=>a+c.price*c.qty,0),sh=ship(sub),id='ORD-'+Date.now();
+const o={id,customer:v('fnm')+' '+v('lnm'),email:v('eml'),phone:v('ph'),address:v('ad'),items:cart.map(c=>({name:c.name,qty:c.qty,price:c.price})),total:sub+sh,shipping:sh,payMethod:method,status:'pending',date:new Date().toISOString().slice(0,10)};
+const os=ld('florris_orders',[]);os.push(o);sv('florris_orders',os);cart=[];drawCart();
+$('oid').textContent=id;$('form').style.display='none';$('ok').style.display='block'}
+function sub(){const e=$('em').value.trim();if(!/\S+@\S+\.\S+/.test(e))return toast('Enter a valid email');$('em').value='';toast('Subscribed')}
+$('mq').innerHTML=('Color Cream · Face Wash · Skin Polish · Facial Kit · 100% Original · Premium Quality · Long Lasting · ').repeat(6);
+addEventListener('scroll',()=>$('nav').classList.toggle('solid',scrollY>60));
+addEventListener('storage',e=>{if(e.key==='florris_products'||e.key==='florris_store_settings')render()});
+let mx=0,my=0,rx=0,ry=0;addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;$('dot').style.transform=`translate(${mx}px,${my}px)`});
+(function f(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;$('ring').style.transform=`translate(${rx}px,${ry}px)`;requestAnimationFrame(f)})();
+render();drawCart();
+</script></body></html>

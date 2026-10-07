@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Florris Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080808;--gold:#C9A96E;--tx:#FDFBF7;--mut:#8a8a8a;--ln:#ffffff14}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--tx);font:300 13px/1.5 Montserrat,sans-serif}
+h1,h2,h3,.big{font-family:'Cormorant Garamond',serif;font-weight:400}button{font:inherit;cursor:pointer}
+#side{position:fixed;top:0;left:0;bottom:0;width:260px;background:#111;border-right:1px solid var(--ln);display:flex;flex-direction:column}
+.lg{padding:26px 22px;border-bottom:1px solid var(--ln);color:var(--gold);font:26px 'Cormorant Garamond'}
+#side nav{flex:1;padding-top:10px}#side nav button{display:block;width:100%;text-align:left;background:none;border:0;border-left:2px solid transparent;color:var(--tx);padding:14px 22px}
+#side nav button:hover{background:#ffffff0a}#side nav button.on{color:var(--gold);border-color:var(--gold);background:#C9A96E14}
+.vs{margin:20px;background:var(--gold);color:#000;text-align:center;padding:12px;text-decoration:none;letter-spacing:1px}
+main{margin-left:260px}.top{position:sticky;top:0;background:#111;border-bottom:1px solid var(--ln);padding:16px 30px;display:flex;gap:14px;align-items:center;z-index:5}
+.top h2{font-size:24px;flex:1}.bd{background:var(--gold);color:#000;padding:2px 10px;font-size:11px}
+.pg{display:none;padding:30px}.pg.on{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:30px}
+.st{background:#111;border-top:2px solid var(--gold);padding:18px}.st .big{font-size:36px}.st small{color:var(--mut)}.g{color:#5fcf8a}
+.box{background:#111;padding:22px;margin-bottom:24px}.box.gd{background:#C9A96E0d;border:1px solid #C9A96E33}
+label{display:block;color:var(--mut);font-size:11px;letter-spacing:1px;margin:12px 0 4px;text-transform:uppercase}
+input,select,textarea{width:100%;background:#ffffff0a;border:1px solid var(--ln);color:var(--tx);font:12px Montserrat;padding:11px 14px}
+select option{background:#111}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--gold)}
+.r{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.b{background:var(--gold);color:#000;border:0;padding:11px 22px;margin:16px 8px 0 0}.b.o{background:none;border:1px solid var(--ln);color:var(--tx);padding:6px 12px;margin:0 4px 0 0}.b.d{background:#e5484d1a;border:1px solid #e5484d66;color:#ff8a8d;padding:6px 12px;margin:0}
+.up{position:relative;border:1px dashed #555;text-align:center;padding:24px;color:var(--mut)}.up:hover{border-color:var(--gold)}.up input{position:absolute;inset:0;opacity:0;cursor:pointer}
+#prev{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}#prev img{width:100%;aspect-ratio:1;object-fit:cover}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse}th{color:var(--gold);text-align:left;font-variant:small-caps;letter-spacing:2px;font-weight:400;padding:10px;border-bottom:1px solid var(--ln)}
+td{padding:10px;border-bottom:1px solid var(--ln)}tr:hover td{background:#ffffff06}td img{width:52px;height:52px;object-fit:cover;display:block}
+.pill{padding:2px 10px;border-radius:20px;font-size:11px;background:#5fcf8a22;color:#5fcf8a}.pill.draft{background:#ffffff1a;color:var(--mut)}
+.sw{position:relative;width:44px;height:24px;display:inline-block;flex:none}.sw input{opacity:0;width:0;height:0}.sw span{position:absolute;inset:0;background:#6b6b6b;border-radius:24px;transition:.3s}
+.sw span::before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.3s}.sw input:checked+span{background:var(--gold)}.sw input:checked+span::before{transform:translateX(20px)}
+.ph{display:flex;justify-content:space-between;align-items:center}.badge{background:#5fcf8a22;color:#5fcf8a;padding:8px 14px;display:inline-block;margin-top:12px}
+#toast{position:fixed;bottom:24px;right:24px;background:var(--gold);color:#000;padding:12px 22px;transform:translateY(90px);transition:.3s;z-index:9}#toast.on{transform:none}
+@media(max-width:900px){#side{position:static;width:auto}#side nav{display:flex;overflow-x:auto}#side nav button{white-space:nowrap;border-left:0}main{margin:0}.stats,.r{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<aside id="side"><div class="lg">Florris Admin</div><nav id="nav"></nav><a class="vs" href="./index.html" target="_blank">↗ View Live Store</a></aside>
+<main><div class="top"><h2 id="ttl"></h2><span class="bd">Admin</span><span id="dt" style="color:var(--mut)"></span></div>
+
+<div class="pg" id="dashboard"><div class="stats" id="stats"></div><div class="box"><h3 style="font-size:22px;margin-bottom:10px">Recent orders</h3><div class="tw"><table id="recent"></table></div></div></div>
+
+<div class="pg" id="products"><div class="box"><h3 id="ft" style="font-size:22px">Add new product</h3><input type="hidden" id="pid">
+<div class="r"><div><label>Product name</label><input id="pn"></div><div><label>Shade / code</label><input id="ps"></div>
+<div><label>Price (PKR)</label><input id="pp" type="number" min="0"></div><div><label>Category</label><select id="pc"><option>Hair Color</option><option>Skincare</option><option>Kits</option></select></div></div>
+<label>Description</label><textarea id="pd" rows="3"></textarea><label>Image</label>
+<div class="up">Click to upload<input type="file" id="pf" accept="image/*" onchange="pick(this)"></div><div id="prev"></div>
+<button class="b" onclick="saveP()">Add Product to Store</button><button class="b o" style="padding:11px 22px" onclick="clrP()">Clear</button></div>
+<div class="box tw"><table><thead><tr><th>Image<th>Name<th>Shade<th>Price<th>Category<th>Status<th>Actions</tr></thead><tbody id="pt"></tbody></table></div></div>
+
+<div class="pg" id="orders"><div class="box tw"><table><thead><tr><th>Order ID<th>Customer<th>Items<th>Total<th>Status<th>Date</tr></thead><tbody id="ot"></tbody></table></div></div>
+
+<div class="pg" id="payments"></div>
+
+<div class="pg" id="account">
+<div class="box gd"><h3 style="font-size:22px">Bank account (direct deposit)</h3><div class="r">
+<div><label>Account holder</label><input id="bh"></div><div><label>Bank</label><select id="bn"><option>HBL</option><option>MCB</option><option>UBL</option><option>Meezan</option><option>Bank Alfalah</option><option>Allied Bank</option><option>Standard Chartered</option><option>Faysal Bank</option><option>Other</option></select></div>
+<div><label>IBAN</label><input id="bi"></div><div><label>Account number</label><input id="ba"></div><div><label>Branch code</label><input id="bc"></div></div>
+<div id="bb"></div><button class="b" onclick="saveBank()">Link Bank Account</button></div>
+<div class="box gd"><h3 style="font-size:22px">Mobile wallet</h3><div class="r"><div><label>Wallet type</label><select id="wt"><option>Easypaisa</option><option>JazzCash</option></select></div><div><label>Mobile number</label><input id="wm"></div></div><div id="wb"></div><button class="b" onclick="saveWallet()">Link Mobile Wallet</button></div>
+<div class="box gd"><h3 style="font-size:22px">Payout schedule</h3><div class="r"><div><label>Frequency</label><select id="pf2"><option>Daily</option><option>Weekly</option><option>Monthly</option></select></div><div><label>Minimum payout (PKR)</label><input id="pm" type="number" min="0"></div></div><button class="b" onclick="saveSched()">Save Schedule</button></div></div>
+
+<div class="pg" id="settings"><div class="box"><div class="r">
+<div><label>Store name</label><input id="s_storeName"></div><div><label>Store URL</label><input id="s_url"></div>
+<div><label>Contact email</label><input id="s_email"></div><div><label>WhatsApp number</label><input id="s_whatsapp"></div>
+<div><label>Currency</label><input id="s_currency" value="PKR" readonly></div><div><label>Default shipping fee</label><input id="s_shippingFee" type="number" min="0"></div>
+<div><label>Free shipping above</label><input id="s_freeShippingAbove" type="number" min="0"></div></div>
+<label>Store description</label><textarea id="s_desc" rows="3"></textarea><button class="b" onclick="saveSettings()">Save Settings</button></div></div>
+</main><div id="toast"></div>
+<script>
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Could not save — storage full or blocked');return false}};
+const $=id=>document.getElementById(id),fp=n=>'PKR '+Number(n||0).toLocaleString('en-PK');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2200)}
+if(!localStorage.getItem('florris_orders'))sv('florris_orders',[]);
+if(!localStorage.getItem('florris_payment_settings'))sv('florris_payment_settings',{card:{enabled:true},easypaisa:{enabled:true},jazzcash:{enabled:false},cod:{enabled:true}});
+if(!localStorage.getItem('florris_store_settings'))sv('florris_store_settings',{shippingFee:200,freeShippingAbove:2000});
+const PAGES=[['dashboard','Dashboard'],['products','Products'],['orders','Orders'],['payments','Payment Methods'],['account','My Account & Payout'],['settings','Store Settings']];
+$('nav').innerHTML=PAGES.map(p=>`<button data-p="${p[0]}" onclick="go('${p[0]}')">${p[1]}</button>`).join('');
+$('dt').textContent=new Date().toDateString();
+function go(p){document.querySelectorAll('.pg').forEach(e=>e.classList.toggle('on',e.id===p));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));$('ttl').textContent=PAGES.find(x=>x[0]===p)[1];({dashboard,products:drawP,orders,payments,account,settings}[p]||(()=>{}))()}
+/* Dashboard */
+function dashboard(){const os=ld('florris_orders',[]),ps=ld('florris_products',[]),b=ld('florris_bank_account',{});
+const st=[['Total Revenue',fp(os.reduce((a,o)=>a+o.total,0)),os.length+' orders'],['Products Listed',ps.length,''],['Pending Orders',os.filter(o=>o.status==='pending').length,''],['Payment Status',b.linked?'<span class="g">✓ Linked</span>':'<span style="color:var(--mut)">Not Linked</span>','']];
+$('stats').innerHTML=st.map(s=>`<div class="st"><small>${s[0]}</small><div class="big">${s[1]}</div><small class="g">${s[2]}</small></div>`).join('');
+$('recent').innerHTML='<tr><th>ID<th>Customer<th>Total<th>Status</tr>'+(os.slice(-5).reverse().map(o=>`<tr><td>${esc(o.id)}<td>${esc(o.customer)}<td>${fp(o.total)}<td>${esc(o.status)}</tr>`).join('')||'<tr><td colspan=4 style="color:var(--mut)">No orders yet. Orders placed on the store will appear here.</tr>')}
+/* Products */
+let imgData='';
+function pick(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);imgData=c.toDataURL('image/jpeg',.8);$('prev').innerHTML=`<img src="${imgData}">`};im.src=r.result};r.readAsDataURL(f)}
+function clrP(){['pid','pn','ps','pp','pd'].forEach(i=>$(i).value='');$('pf').value='';imgData='';$('prev').innerHTML='';$('ft').textContent='Add new product'}
+function saveP(){const n=$('pn').value.trim(),pr=parseFloat($('pp').value);if(!n||isNaN(pr)||pr<0)return toast('Enter a product name and valid price');
+const ps=ld('florris_products',[]),id=+$('pid').value;let p=ps.find(x=>x.id===id);
+if(!p){p={id:Math.max(0,...ps.map(x=>x.id))+1,status:'active',img:'images/hero.jpg'};ps.push(p)}
+Object.assign(p,{name:n,shade:$('ps').value.trim(),price:pr,cat:$('pc').value,desc:$('pd').value.trim()});if(imgData)p.img=imgData;
+if(sv('florris_products',ps)){toast(id?'Product updated':'Product added');clrP();drawP()}}
+function drawP(){const ps=ld('florris_products',[]);$('pt').innerHTML=ps.map(p=>`<tr><td><img src="${esc(p.img)}" onerror="this.onerror=null;this.src='images/hero.jpg'"><td>${esc(p.name)}<td>${esc(p.shade)}<td>${fp(p.price)}<td>${esc(p.cat)}<td><span class="pill ${p.status==='draft'?'draft':''}" style="cursor:pointer" onclick="tgl(${p.id})">${esc(p.status)}</span><td style="white-space:nowrap"><button class="b o" onclick="editP(${p.id})">Edit</button><button class="b d" onclick="delP(${p.id})">Delete</button></tr>`).join('')}
+function tgl(id){const ps=ld('florris_products',[]),p=ps.find(x=>x.id===id);p.status=p.status==='draft'?'active':'draft';sv('florris_products',ps);drawP();toast('Status set to '+p.status)}
+function editP(id){const p=ld('florris_products',[]).find(x=>x.id===id);if(!p)return;$('pid').value=p.id;$('pn').value=p.name;$('ps').value=p.shade||'';$('pp').value=p.price;$('pc').value=p.cat;$('pd').value=p.desc||'';imgData='';$('prev').innerHTML=`<img src="${esc(p.img)}">`;$('ft').textContent='Edit product';scrollTo({top:0,behavior:'smooth'})}
+function delP(id){if(!confirm('Delete this product from the store?'))return;sv('florris_products',ld('florris_products',[]).filter(x=>x.id!==id));drawP();toast('Product deleted')}
+/* Orders */
+function orders(){const os=ld('florris_orders',[]);$('ot').innerHTML=os.slice().reverse().map(o=>`<tr><td>${esc(o.id)}<td>${esc(o.customer)}<br><small style="color:var(--mut)">${esc(o.phone)}</small><td>${(o.items||[]).map(i=>esc(i.name)+' ×'+i.qty).join('<br>')}<td>${fp(o.total)}<td><select onchange="setSt('${esc(o.id)}',this.value)">${['pending','processing','shipped','delivered'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select><td>${esc(o.date)}</tr>`).join('')||'<tr><td colspan=6 style="color:var(--mut)">No orders yet.</tr>'}
+function setSt(id,s){const os=ld('florris_orders',[]),o=os.find(x=>x.id===id);if(o){o.status=s;sv('florris_orders',os);toast(`Order #${id} updated to ${s}`)}}
+/* Payments */
+const PM=[['card','Credit/Debit Card (Stripe)',[['pubKey','Stripe Publishable Key'],['secKey','Stripe Secret Key']]],['easypaisa','Easypaisa',[['merchantId','Merchant ID'],['hashKey','Merchant Hash Key']]],['jazzcash','JazzCash',[['merchantId','Merchant ID'],['password','API Password']]],['cod','Cash on Delivery',[['fee','COD Fee (PKR)'],['maxOrder','Max Order Value for COD']]]];
+function payments(){const s=ld('florris_payment_settings',{});$('payments').innerHTML=PM.map(m=>{const c=s[m[0]]||{};return `<div class="box"><div class="ph"><h3 style="font-size:22px">${m[1]}</h3><label class="sw" style="margin:0"><input type="checkbox" ${c.enabled?'checked':''} onchange="togglePay('${m[0]}',this.checked,'${m[1]}')"><span></span></label></div><div class="r">${m[2].map(f=>`<div><label>${f[1]}</label><input id="${m[0]}_${f[0]}" value="${esc(c[f[0]]??'')}" ${m[0]==='card'&&f[0]==='secKey'?'type="password"':''}></div>`).join('')}</div><button class="b" onclick="savePay('${m[0]}')">Save</button></div>`}).join('')}
+function togglePay(k,on,n){const s=ld('florris_payment_settings',{});s[k]=Object.assign(s[k]||{},{enabled:on});sv('florris_payment_settings',s);toast(n+(on?' enabled':' disabled'))}
+function savePay(k){const s=ld('florris_payment_settings',{});PM.find(m=>m[0]===k)[2].forEach(f=>{const v=$(k+'_'+f[0]).value;s[k][f[0]]=k==='cod'?Number(v)||0:v});sv('florris_payment_settings',s);toast('Settings saved')}
+/* Account */
+function account(){const b=ld('florris_bank_account',{}),w=ld('florris_wallet',{}),p=ld('florris_payout',{});
+$('bh').value=b.holderName||'';$('bn').value=b.bankName||'HBL';$('bi').value=b.iban||'';$('ba').value=b.accountNumber||'';$('bc').value=b.branchCode||'';
+$('bb').innerHTML=b.linked?`<div class="badge">✓ Bank Account Linked — ${esc(b.holderName)}</div>`:'';
+$('wt').value=w.type||'Easypaisa';$('wm').value=w.number||'';$('wb').innerHTML=w.number?`<div class="badge">✓ Wallet Linked — ${esc(w.type)}</div>`:'';
+$('pf2').value=p.frequency||'Weekly';$('pm').value=p.min||''}
+function saveBank(){const o={holderName:$('bh').value.trim(),bankName:$('bn').value,iban:$('bi').value.trim(),accountNumber:$('ba').value.trim(),branchCode:$('bc').value.trim()};if(!o.holderName||!o.iban||!o.accountNumber)return toast('Enter holder name, IBAN and account number');o.linked=true;sv('florris_bank_account',o);account();toast('Bank account linked')}
+function saveWallet(){const n=$('wm').value.trim();if(!n)return toast('Enter a mobile number');sv('florris_wallet',{type:$('wt').value,number:n});account();toast('Wallet linked')}
+function saveSched(){sv('florris_payout',{frequency:$('pf2').value,min:Number($('pm').value)||0});toast('Schedule saved')}
+/* Settings */
+const SF=['storeName','url','email','whatsapp','shippingFee','freeShippingAbove','desc'];
+function settings(){const s=ld('florris_store_settings',{});SF.forEach(f=>$('s_'+f).value=s[f]??'')}
+function saveSettings(){const s=ld('florris_store_settings',{});SF.forEach(f=>{const v=$('s_'+f).value;s[f]=['shippingFee','freeShippingAbove'].includes(f)?Number(v)||0:v});s.currency='PKR';sv('florris_store_settings',s);toast('Settings saved')}
+addEventListener('storage',()=>{const a=document.querySelector('.pg.on');if(a&&['dashboard','orders'].includes(a.id))go(a.id)});
+go('dashboard');
+</script></body></html>
